@@ -290,30 +290,12 @@ namespace NewtonVR
 
         public Vector3 GetVelocityEstimation()
         {
-            float delta = LastDeltas.Sum();
-            Vector3 distance = Vector3.zero;
-
-            for (int index = 0; index < LastPositions.Length-1; index++)
-            {
-                Vector3 diff = LastPositions[index + 1] - LastPositions[index];
-                distance += diff;
-            }
-
-            return distance / delta;
+			return Controller.velocity;
         }
 
         public Vector3 GetAngularVelocityEstimation()
         {
-            float delta = LastDeltas.Sum();
-            float angleDegrees = 0.0f;
-            Vector3 unitAxis = Vector3.zero;
-            Quaternion rotation = Quaternion.identity;
-
-            rotation =  LastRotations[LastRotations.Length-1] * Quaternion.Inverse(LastRotations[LastRotations.Length-2]);
-
-            //Error: the incorrect rotation is sometimes returned
-            rotation.ToAngleAxis(out angleDegrees, out unitAxis);
-            return unitAxis * ((angleDegrees * Mathf.Deg2Rad) / delta);
+			return Controller.angularVelocity;
         }
 
         public Vector3 GetPositionDelta()
